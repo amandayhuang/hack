@@ -1,0 +1,28 @@
+body {
+  background-color: #121212;
+  color: #f0f4f8;
+  /* font-family: "Courier New", Courier, monospace !important; */
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  /* font-family: "Courier New", Courier, monospace !important; */
+}
+
+p {
+  /* font-family: "Courier New", Courier, monospace !important; */
+}
+
+/* Set the color of links to a light blue color */
+a {
+  color: #829ab1;
+}
+
+/* Set the color of visited links to a lighter shade of blue */
+a:visited {
+  color: #bcccdc;
+}

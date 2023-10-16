@@ -1,0 +1,287 @@
+:root {
+  --cool-gray: #a0a4b8ff;
+  --red-munsell: #ec0b43ff;
+  --violet-jtc: #58355eff;
+  --aquamarine: #7ae7c7ff;
+  --tea-green: #d6ffb7ff;
+  --maize: #fff689ff;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.countdown-title {
+  font-size: 15px !important;
+  color: var(--cool-gray);
+}
+
+.countdown-number {
+  font-size: 30px !important;
+}
+
+.divider {
+  color: var(--maize);
+  padding: 0px;
+  border: 0px;
+  font-size: 90px;
+}
+
+.wwc-title {
+  font-size: 22px !important;
+  font-weight: 400 !important;
+  color: white !important;
+  font-family: "Poppins", sans-serif !important;
+  @media screen and (min-width: 900px) {
+    font-size: 25px !important;
+  }
+}
+
+.yellow {
+  color: var(--maize) !important;
+}
+
+.gray {
+  color: var(--cool-gray) !important;
+}
+
+.section-header {
+  text-decoration: underline;
+  text-decoration-color: var(--maize);
+  text-underline-offset: 7px;
+  width: 350px;
+  @media screen and (min-width: 900px) {
+    width: 400px;
+  }
+}
+
+.fixture-text {
+  font-family: "Courier New", Courier, monospace !important;
+  font-size: 14px !important;
+}
+
+.fixture-box {
+  background-color: var(--violet-jtc);
+  border-radius: 6px;
+  margin-bottom: 10px;
+  width: 350px;
+  @media screen and (min-width: 900px) {
+    width: 400px;
+  }
+}
+
+.group-chip {
+  background-color: var(--maize);
+  margin-bottom: 5px;
+  margin-right: 10px;
+}
+
+.predict-helper {
+  color: var(--cool-gray);
+  font-size: 13px !important;
+}
+
+.email {
+  font-size: 13px !important;
+}
+
+.skeleton-fixture {
+  margin-bottom: 15px;
+}
+
+.ranking {
+  font-size: 12px !important;
+  color: var(--cool-gray);
+}
+
+.hide {
+  visibility: hidden;
+}
+
+.spinner {
+  margin-right: 10px;
+  font-size: 10px;
+}
+
+.predict-button {
+  width: 95px !important;
+}
+
+.predict-button-gray {
+  background-color: var(--cool-gray) !important;
+}
+
+.product-title {
+  font-size: 18px !important;
+  font-weight: 500;
+}
+
+.product-subtitle {
+  font-size: 14px !important;
+  color: var(--cool-gray);
+}
+
+.launch-icon {
+  font-size: 10px;
+  margin-left: 10px;
+}
+
+.past-fixture {
+  font-size: 18px !important;
+}
+
+.past-fixture-score {
+  font-size: 22px !important;
+}
+
+.prediction-row-button {
+  width: 55px;
+}
+
+.disclaimer-box {
+  width: 350px;
+  @media screen and (min-width: 900px) {
+    width: 400px;
+  }
+}
+
+.invite-badge {
+  width: 100px;
+}
+
+.small {
+  font-size: 12px !important;
+}
+
+.leaderboard-container {
+  padding: 0 !important;
+}
+
+.sizing {
+  width: 350px;
+  @media screen and (min-width: 900px) {
+    width: 400px;
+  }
+}
+
+.rank {
+  font-weight: 600 !important;
+}
+
+.link {
+  color: var(--cool-gray);
+  cursor: pointer;
+  font-size: 13px !important;
+  text-decoration: none !important;
+}
+
+.star {
+  color: var(--maize);
+  margin-right: 5px;
+}
+
+.question-box {
+  padding: 20px;
+}
+
+.answer-box {
+  padding: 15px;
+  background-color: var(--violet-jtc) !important;
+  border-radius: 6px;
+  margin: 25px 10px;
+  color: white !important;
+  width: 250px;
+  cursor: pointer;
+}
+
+.selected-option {
+  background-color: var(--cool-gray) !important;
+}
+
+.new-points {
+  color: var(--violet-jtc);
+}
+
+.leaderboard-name {
+  text-overflow: ellipsis !important;
+  max-width: 150px !important;
+  overflow: hidden !important;
+}
+
+.winner {
+  font-size: 17px !important;
+}
+
+.hidden-text {
+  color: transparent;
+  text-shadow: 0 0 7px white;
+}
+
+.hidden-text:hover {
+  color: transparent;
+  text-shadow: 0 0 7px white;
+}
+
+.blur-image {
+  filter: blur(8px);
+}
+
+.reveal-text {
+  color: var(--cool-gray);
+  font-size: 10px !important;
+}
+
+.player-select {
+  background-color: white;
+  border-radius: 6px;
+}
+
+.bold {
+  font-weight: 600 !important;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.table {
+  max-width: 350px;
+  @media screen and (min-width: 500px) {
+    max-width: 500px;
+  }
+}
