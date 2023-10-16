@@ -11,11 +11,9 @@ import {
   MenuItem,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import EditIcon from "@mui/icons-material/Edit";
 import Title from "./Title";
 import { useNavigate } from "react-router-dom";
 import AlertDialog from "./AlertDialog";
-import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 
 const pages = [
   { title: "Item 1", url: "/", isVisible: true },
@@ -40,11 +38,6 @@ const WelcomeMessage = () => {
 
 const ResponsiveAppBar = () => {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
-  const [points, setPoints] = useState<null | number>(null);
-  const [displayName, setDisplayName] = useState<null | string | undefined>(
-    null
-  );
   const [showWelcome, setShowWelcome] = useState(false);
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -57,9 +50,6 @@ const ResponsiveAppBar = () => {
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
@@ -67,11 +57,6 @@ const ResponsiveAppBar = () => {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
-  };
-
-  const onDisplayNameClick = () => {
-    setOpen(true);
-    handleCloseUserMenu();
   };
 
   return (
@@ -179,22 +164,6 @@ const ResponsiveAppBar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {displayName && (
-                <MenuItem onClick={onDisplayNameClick}>
-                  <Box
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="space-between"
-                    width="100%"
-                  >
-                    <Typography>{displayName}</Typography>
-                    <Box ml={2}>
-                      <EditIcon fontSize="small" />
-                    </Box>
-                  </Box>
-                </MenuItem>
-              )}
-
               <Box>
                 <MenuItem onClick={() => null}>
                   <Typography textAlign="center">{"Sign up"}</Typography>
