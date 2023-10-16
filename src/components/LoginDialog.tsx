@@ -8,7 +8,6 @@ import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
-import { useAuth0Helpers } from "../hooks/useAuth0Helpers";
 
 type Props = {
   open: boolean;
@@ -18,7 +17,6 @@ type Props = {
 };
 
 const LoginDialog = ({ open, setOpen, title, description }: Props) => {
-  const { handleSignup, handleLogin } = useAuth0Helpers();
   const handleClose = () => setOpen(false);
 
   return (
@@ -37,12 +35,12 @@ const LoginDialog = ({ open, setOpen, title, description }: Props) => {
       <DialogActions>
         <Box display="flex" justifyContent="center" width="100%">
           <Box m={1}>
-            <Button onClick={handleSignup} variant="contained">
+            <Button onClick={() => null} variant="contained">
               Sign up
             </Button>
           </Box>
           <Box m={1}>
-            <Button onClick={handleLogin} variant="contained">
+            <Button onClick={() => null} variant="contained">
               Log in
             </Button>
           </Box>

@@ -9,6 +9,7 @@ import {
   Container,
   Button,
   MenuItem,
+  Avatar,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Title from "./Title";
@@ -46,6 +47,10 @@ const ResponsiveAppBar = () => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
+
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
+  };
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -149,6 +154,15 @@ const ResponsiveAppBar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <Avatar
+                alt={""}
+                // src="/static/images/avatar/2.jpg"
+              >
+                {undefined}
+              </Avatar>
+            </IconButton>
+
             <Menu
               sx={{ mt: "45px" }}
               id="menu-appbar"
