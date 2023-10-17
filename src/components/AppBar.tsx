@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import "@passageidentity/passage-elements/passage-profile";
+import { usePassageCurrentUser, usePassageLogout } from "../hooks";
+import PassageDialog from "./PassageDialog";
 import {
   AppBar,
   Box,
@@ -14,7 +17,6 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import Title from "./Title";
 import { useNavigate } from "react-router-dom";
-import AlertDialog from "./AlertDialog";
 
 const pages = [
   { title: "Item 1", url: "/", isVisible: true },
@@ -23,24 +25,13 @@ const pages = [
   { title: "About", url: "/about", isVisible: true },
 ];
 
-const WelcomeMessage = () => {
-  return (
-    <Box>
-      <Typography variant="h6" className="new-points">
-        +500 points
-      </Typography>
-      <Typography>
-        {`Welcome! You have 500 points to make predictions with throughout the many
-        matches of the thing""}.`}
-      </Typography>
-    </Box>
-  );
-};
-
 const ResponsiveAppBar = () => {
   const navigate = useNavigate();
-  const [showWelcome, setShowWelcome] = useState(false);
-
+  const [userId, setUserId] = useState<null | number>(null);
+  const [userEmail, setUserEmail] = useState("");
+  const { id, email } = usePassageCurrentUser();
+  const { logout } = usePassageLogout();
+  const [openPassage, setOpenPassage] = useState(false);
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -63,6 +54,21 @@ const ResponsiveAppBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleLogout = () => {
+    logout();
+    setUserEmail("");
+    setUserId(null);
+    setAnchorElUser(null);
+  };
+
+  useEffect(() => {
+    setUserEmail(email);
+  }, [email]);
+
+  useEffect(() => {
+    setUserId(id);
+  }, [id]);
 
   return (
     <AppBar position="sticky">
@@ -155,11 +161,10 @@ const ResponsiveAppBar = () => {
 
           <Box sx={{ flexGrow: 0 }}>
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar
-                alt={""}
-                // src="/static/images/avatar/2.jpg"
-              >
-                {undefined}
+              <Avatar alt={userEmail || ""} src="/static/images/avatar/2.jpg">
+                {userEmail && userEmail.length > 1
+                  ? userEmail.slice(0, 1)
+                  : undefined}
               </Avatar>
             </IconButton>
 
@@ -178,27 +183,35 @@ const ResponsiveAppBar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
+              {userEmail ? (
+                <MenuItem disabled>
+                  <Box>
+                    <Typography className="email">{userEmail}</Typography>
+                  </Box>
+                </MenuItem>
+              ) : null}
+              {userId && (
+                <MenuItem onClick={handleLogout}>
+                  <Typography textAlign="center">{"Logout"}</Typography>
+                </MenuItem>
+              )}
               <Box>
-                <MenuItem onClick={() => null}>
-                  <Typography textAlign="center">{"Sign up"}</Typography>
-                </MenuItem>
-                <MenuItem onClick={() => null}>
-                  <Typography textAlign="center">{"Log in"}</Typography>
-                </MenuItem>
+                {!userId && (
+                  <MenuItem onClick={() => setOpenPassage(true)}>
+                    <Typography textAlign="center">{"Sign up"}</Typography>
+                  </MenuItem>
+                )}
+                {!userId && (
+                  <MenuItem onClick={() => setOpenPassage(true)}>
+                    <Typography textAlign="center">{"Log in"}</Typography>
+                  </MenuItem>
+                )}
               </Box>
             </Menu>
           </Box>
         </Toolbar>
       </Container>
-      <AlertDialog
-        open={showWelcome}
-        setOpen={setShowWelcome}
-        buttonText={"learn more"}
-        content={<WelcomeMessage />}
-        buttonClickHandler={() => navigate("/about")}
-        title={"testing"}
-        isLoading={false}
-      />
+      <PassageDialog open={openPassage} setOpen={setOpenPassage} />
     </AppBar>
   );
 };
