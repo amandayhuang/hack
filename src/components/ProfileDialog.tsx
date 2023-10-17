@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Typography,
@@ -8,18 +8,14 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Radio,
-  RadioGroup,
-  FormControlLabel,
   Box,
   Chip,
   IconButton,
-  CircularProgress,
 } from "@mui/material";
-import { useMutation, useQueryClient } from "react-query";
+// import { useQueryClient } from "react-query";
 import AlertDialog from "./AlertDialog";
 import { useNavigate } from "react-router-dom";
-import { ProfileContext } from "../context/ProfileContext";
+// import { ProfileContext } from "../context/ProfileContext";
 import { interests } from "../constants";
 
 type Props = {
@@ -30,8 +26,8 @@ type Props = {
 const ProfileDialog = ({ open, setOpen }: Props) => {
   const [openAlert, setOpenAlert] = useState(false);
   const [selectedInterests, setSelectedInterests] = useState<number[]>([]);
-  const profileContext = useContext(ProfileContext);
-  const queryClient = useQueryClient();
+  //   const profileContext = useContext(ProfileContext);
+  //   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   //   const { isLoading, mutate: createPredictionMutation } = useMutation(
