@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "@passageidentity/passage-elements/passage-profile";
 import { usePassageCurrentUser, usePassageLogout } from "../hooks";
 import PassageDialog from "./PassageDialog";
@@ -19,16 +19,13 @@ import Title from "./Title";
 import { useNavigate } from "react-router-dom";
 import { getProfile } from "../services/profile";
 import { useQuery } from "react-query";
+import { ProfileContext } from "../context/ProfileContext";
 
-const pages = [
-  { title: "Item 1", url: "/", isVisible: true },
-  { title: "Item 2", url: "/", isVisible: true },
-  { title: "Item 3", url: "/", isVisible: true },
-  { title: "About", url: "/about", isVisible: true },
-];
+const pages = [{ title: "About", url: "/about", isVisible: true }];
 
 const ResponsiveAppBar = () => {
   const navigate = useNavigate();
+  const profileContext = useContext(ProfileContext);
   const [userId, setUserId] = useState<null | string>(null);
   const [userEmail, setUserEmail] = useState("");
   const { id, email } = usePassageCurrentUser();
@@ -50,6 +47,9 @@ const ResponsiveAppBar = () => {
     },
     {
       enabled: false,
+      onSuccess: (data) => {
+        profileContext?.setProfile(data);
+      },
     }
   );
 
@@ -74,6 +74,7 @@ const ResponsiveAppBar = () => {
     setUserEmail("");
     setUserId(null);
     setAnchorElUser(null);
+    profileContext?.setProfile(null);
   };
 
   useEffect(() => {

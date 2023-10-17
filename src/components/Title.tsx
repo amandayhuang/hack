@@ -9,7 +9,7 @@ const Title = () => {
       <Box mr={1}>
         <Typography className="wwc-title yellow">{`{`}</Typography>
       </Box>
-      <Typography className="wwc-title">{`testing`}</Typography>
+      <Typography className="wwc-title">{`phone a friend`}</Typography>
       <Box ml={1}>
         <Typography className="wwc-title yellow">{`}`}</Typography>
       </Box>
