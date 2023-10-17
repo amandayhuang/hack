@@ -3,10 +3,18 @@ import PageWrapper from "../pages/PageWrapper";
 import { Box, Typography, Button } from "@mui/material";
 import PassageDialog from "../PassageDialog";
 import { ProfileContext } from "../../context/ProfileContext";
+import ProfileDialog from "../ProfileDialog";
 
 const Home = () => {
   const [open, setOpen] = useState(false);
+  const [openProfile, setOpenProfile] = useState(false);
+  const [type, setType] = useState<string | null>(null);
   const profileContext = useContext(ProfileContext);
+
+  const handleOpenPassage = (passageType: "login" | "register") => {
+    setType(passageType);
+    setOpen(true);
+  };
 
   return (
     <PageWrapper>
@@ -19,21 +27,33 @@ const Home = () => {
             >{`phone a friend`}</Typography>
             <Box mt={3}>
               {!profileContext?.profile && (
-                <Button variant="outlined" onClick={() => setOpen(true)}>
+                <Button
+                  variant="outlined"
+                  onClick={() => handleOpenPassage("register")}
+                  style={{ marginRight: "20px" }}
+                >
                   Sign Up
                 </Button>
               )}
-
+              {!profileContext?.profile && (
+                <Button
+                  variant="outlined"
+                  onClick={() => handleOpenPassage("login")}
+                >
+                  Login
+                </Button>
+              )}
               {profileContext?.profile && (
-                <Button variant="outlined" onClick={() => null}>
-                  Find My Match
+                <Button variant="outlined" onClick={() => setOpenProfile(true)}>
+                  Build Profile
                 </Button>
               )}
             </Box>
           </Box>
         </Box>
       </Box>
-      <PassageDialog open={open} setOpen={setOpen} />
+      {type && <PassageDialog open={open} setOpen={setOpen} type={type} />}
+      <ProfileDialog open={openProfile} setOpen={setOpenProfile} />
     </PageWrapper>
   );
 };

@@ -18,6 +18,10 @@ model Profile {
   passage_id    String
   email        String?
   phone        String?
+  first_name   String?
+  last_name    String?
+  dt_of_birth  DateTime?
+  role         String     @default("VOLUNTEER")
   dt_created   DateTime   @default(now())
   dt_updated   DateTime   @default(now()) 
 }

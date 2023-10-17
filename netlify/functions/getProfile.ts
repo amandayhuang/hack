@@ -6,6 +6,8 @@ const prisma = new PrismaClient();
 interface ProfileEntry {
   passage_id: string;
   email: string;
+  first_name: string | null;
+  last_name: string | null;
 }
 
 const handler: Handler = async (event, context) => {
@@ -36,6 +38,8 @@ const handler: Handler = async (event, context) => {
       data: {
         passage_id: newProfile.passage_id,
         email: newProfile.email,
+        first_name: newProfile.first_name,
+        last_name: newProfile.last_name,
       },
     });
 

@@ -7,6 +7,8 @@ export function usePassageCurrentUser() {
     isAuthorized: false,
     id: null,
     email: "",
+    firstName: "",
+    lastName: "",
   });
 
   useEffect(() => {
@@ -23,14 +25,19 @@ export function usePassageCurrentUser() {
             isAuthorized: false,
             id: null,
             email: "",
+            firstName: "",
+            lastName: "",
           });
           return;
         }
+
         setResult({
           isLoading: false,
           isAuthorized: true,
           id: userInfo.id,
           email: userInfo.email,
+          firstName: userInfo.user_metadata.first_name,
+          lastName: userInfo.user_metadata.last_name,
         });
       });
       return () => {

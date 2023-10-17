@@ -1,44 +1,23 @@
-type StatusInfo = {
-  label: string;
-  color: string;
-};
-
-export const MATCH_COMPLETED = "Match Finished";
-
-export const MATCH_COMPLETED_SHORT_STATUS = ["FT", "AET", "PEN"];
-
-export const MATCH_LIVE_SHORT_STATUS = [
-  "1H",
-  "HT",
-  "2H",
-  "ET",
-  "BT",
-  "P",
-  "SUSP",
-  "INT",
+export const interests = [
+  { id: 1, title: "Art", icon: `🎨`, category: "Sports" },
+  { id: 2, title: "Crafts", icon: `🧶`, category: "Sports" },
+  { id: 3, title: "Design", icon: `💡`, category: "Sports" },
+  { id: 4, title: "Sports", icon: `⚽`, category: "Sports" },
+  { id: 5, title: "Dancing", icon: `💃`, category: "Sports" },
+  { id: 6, title: "Photography", icon: `📷`, category: "Sports" },
+  { id: 7, title: "Singing", icon: `👨‍🎤`, category: "Sports" },
+  { id: 8, title: "Writing", icon: `🖋`, category: "Sports" },
+  { id: 9, title: "Museums", icon: `🖼`, category: "Sports" },
+  { id: 10, title: "Music", icon: `🎵`, category: "Sports" },
+  { id: 11, title: "Cooking", icon: `🧑‍🍳`, category: "Sports" },
+  { id: 12, title: "Baking", icon: `🥐`, category: "Sports" },
+  { id: 13, title: "Board Games", icon: `🀄`, category: "Sports" },
+  { id: 14, title: "Gardening", icon: `🌼`, category: "Sports" },
+  { id: 15, title: "Theater", icon: `🎭`, category: "Sports" },
+  { id: 16, title: "Movies", icon: `🎬`, category: "Sports" },
+  { id: 17, title: "Television", icon: `📺`, category: "Sports" },
+  { id: 18, title: "Comedy", icon: `😂`, category: "Sports" },
+  { id: 19, title: "Reading", icon: `📖`, category: "Sports" },
+  { id: 20, title: "Pets", icon: `🐈`, category: "Sports" },
+  { id: 21, title: "Family", icon: `👩‍👩‍👧‍👦`, category: "Sports" },
 ];
-
-export const MATCH_SCHEDULED_SHORT_STATUS = ["TBD", "NS"];
-
-export const getMatchStatus = (shortStatus: string | null) => {
-  if (!shortStatus) return "other";
-  if (MATCH_COMPLETED_SHORT_STATUS.includes(shortStatus)) {
-    return "completed";
-  } else if (MATCH_LIVE_SHORT_STATUS.includes(shortStatus)) {
-    return "live";
-  } else if (MATCH_SCHEDULED_SHORT_STATUS.includes(shortStatus)) {
-    return "scheduled";
-  } else {
-    return "other";
-  }
-};
-
-export const statusMapping: Record<string, StatusInfo> = {
-  active: { label: "Pending", color: "#a0a4b8ff" },
-  settled_won: { label: "Won", color: "#7ae7c7ff" },
-  settled_lost: { label: "Lost", color: "#ec0b43ff" },
-  canceled: { label: "Canceled", color: "#a0a4b8ff" },
-};
-
-export const pointsDisclaimer = `Winning predictions double your points bet. You may update or cancel your
-                prediction up until the match starts.`;

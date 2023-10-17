@@ -26,9 +26,7 @@ const pages = [{ title: "About", url: "/about", isVisible: true }];
 const ResponsiveAppBar = () => {
   const navigate = useNavigate();
   const profileContext = useContext(ProfileContext);
-  const [userId, setUserId] = useState<null | string>(null);
-  const [userEmail, setUserEmail] = useState("");
-  const { id, email } = usePassageCurrentUser();
+  const { id, email, firstName, lastName } = usePassageCurrentUser();
   const { logout } = usePassageLogout();
   const [openPassage, setOpenPassage] = useState(false);
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -37,12 +35,18 @@ const ResponsiveAppBar = () => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
+  const [type, setType] = useState<null | string>(null);
 
   const { refetch: getProfileQuery } = useQuery(
     "get-profile",
     async () => {
-      if (userId && userEmail) {
-        return await getProfile({ passage_id: userId, email: userEmail });
+      if (id) {
+        return await getProfile({
+          passage_id: id,
+          email: email,
+          first_name: firstName,
+          last_name: lastName,
+        });
       }
     },
     {
@@ -71,25 +75,21 @@ const ResponsiveAppBar = () => {
 
   const handleLogout = () => {
     logout();
-    setUserEmail("");
-    setUserId(null);
     setAnchorElUser(null);
     profileContext?.setProfile(null);
   };
 
   useEffect(() => {
-    setUserEmail(email);
-  }, [email]);
-
-  useEffect(() => {
-    setUserId(id);
-  }, [id]);
-
-  useEffect(() => {
-    if (userId) {
+    if (id) {
       getProfileQuery();
     }
-  }, [userId, getProfileQuery]);
+  }, [id, getProfileQuery]);
+
+  const handleOpenPassage = (passageType: "login" | "register") => {
+    setType(passageType);
+    setOpenPassage(true);
+    setAnchorElUser(null);
+  };
 
   return (
     <AppBar position="sticky">
@@ -182,9 +182,12 @@ const ResponsiveAppBar = () => {
 
           <Box sx={{ flexGrow: 0 }}>
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar alt={userEmail || ""} src="/static/images/avatar/2.jpg">
-                {userEmail && userEmail.length > 1
-                  ? userEmail.slice(0, 1)
+              <Avatar
+                alt={profileContext?.profile?.email || ""}
+                src="/static/images/avatar/2.jpg"
+              >
+                {profileContext?.profile?.email
+                  ? profileContext?.profile?.email.slice(0, 1)
                   : undefined}
               </Avatar>
             </IconButton>
@@ -204,26 +207,28 @@ const ResponsiveAppBar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {userEmail ? (
+              {profileContext?.profile?.email ? (
                 <MenuItem disabled>
                   <Box>
-                    <Typography className="email">{userEmail}</Typography>
+                    <Typography className="email">
+                      {profileContext?.profile?.email}
+                    </Typography>
                   </Box>
                 </MenuItem>
               ) : null}
-              {userId && (
+              {profileContext?.profile?.passage_id && (
                 <MenuItem onClick={handleLogout}>
                   <Typography textAlign="center">{"Logout"}</Typography>
                 </MenuItem>
               )}
               <Box>
-                {!userId && (
-                  <MenuItem onClick={() => setOpenPassage(true)}>
+                {!profileContext?.profile?.passage_id && (
+                  <MenuItem onClick={() => handleOpenPassage("register")}>
                     <Typography textAlign="center">{"Sign up"}</Typography>
                   </MenuItem>
                 )}
-                {!userId && (
-                  <MenuItem onClick={() => setOpenPassage(true)}>
+                {!profileContext?.profile?.passage_id && (
+                  <MenuItem onClick={() => handleOpenPassage("login")}>
                     <Typography textAlign="center">{"Log in"}</Typography>
                   </MenuItem>
                 )}
@@ -232,7 +237,13 @@ const ResponsiveAppBar = () => {
           </Box>
         </Toolbar>
       </Container>
-      <PassageDialog open={openPassage} setOpen={setOpenPassage} />
+      {type && (
+        <PassageDialog
+          open={openPassage}
+          setOpen={setOpenPassage}
+          type={type}
+        />
+      )}
     </AppBar>
   );
 };

@@ -4,6 +4,8 @@ import { headers } from ".";
 type ProfileInput = {
   passage_id: string;
   email: string;
+  first_name: string | null;
+  last_name: string | null;
 };
 
 export const getProfile = async (profile: ProfileInput) => {
