@@ -17,6 +17,8 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import Title from "./Title";
 import { useNavigate } from "react-router-dom";
+import { getProfile } from "../services/profile";
+import { useQuery } from "react-query";
 
 const pages = [
   { title: "Item 1", url: "/", isVisible: true },
@@ -27,7 +29,7 @@ const pages = [
 
 const ResponsiveAppBar = () => {
   const navigate = useNavigate();
-  const [userId, setUserId] = useState<null | number>(null);
+  const [userId, setUserId] = useState<null | string>(null);
   const [userEmail, setUserEmail] = useState("");
   const { id, email } = usePassageCurrentUser();
   const { logout } = usePassageLogout();
@@ -37,6 +39,18 @@ const ResponsiveAppBar = () => {
   );
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
+  );
+
+  const { refetch: getProfileQuery } = useQuery(
+    "get-profile",
+    async () => {
+      if (userId && userEmail) {
+        return await getProfile({ passage_id: userId, email: userEmail });
+      }
+    },
+    {
+      enabled: false,
+    }
   );
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -69,6 +83,12 @@ const ResponsiveAppBar = () => {
   useEffect(() => {
     setUserId(id);
   }, [id]);
+
+  useEffect(() => {
+    if (userId) {
+      getProfileQuery();
+    }
+  }, [userId, getProfileQuery]);
 
   return (
     <AppBar position="sticky">

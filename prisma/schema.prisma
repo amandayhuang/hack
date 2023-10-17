@@ -15,5 +15,9 @@ datasource db {
 }
 model Profile {
   id     BigInt     @id @default(autoincrement())
-  bio    String?
+  passage_id    String
+  email        String?
+  phone        String?
+  dt_created   DateTime   @default(now())
+  dt_updated   DateTime   @default(now()) 
 }
