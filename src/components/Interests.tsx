@@ -24,7 +24,6 @@ type Props = {
 
 const Interests = ({ isEditable, passage_id, setOpen }: Props) => {
   const [openAlert, setOpenAlert] = useState(false);
-  const [savedInterests, setSavedInterests] = useState<number[]>([]);
   const [selectedInterests, setSelectedInterests] = useState<number[]>([]);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -40,9 +39,6 @@ const Interests = ({ isEditable, passage_id, setOpen }: Props) => {
       {
         enabled: false,
         onSuccess: (data) => {
-          setSavedInterests(
-            data.Profile_Interest.map((i: ProfileInterest) => i.interest_id)
-          );
           setSelectedInterests(
             data.Profile_Interest.map((i: ProfileInterest) => i.interest_id)
           );
