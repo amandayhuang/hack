@@ -4,6 +4,7 @@ import { Box, Typography, Button } from "@mui/material";
 import PassageDialog from "../PassageDialog";
 import { ProfileContext } from "../../context/ProfileContext";
 import ProfileDialog from "../ProfileDialog";
+import Interests from "../Interests";
 
 const Home = () => {
   const [open, setOpen] = useState(false);
@@ -52,6 +53,14 @@ const Home = () => {
           </Box>
         </Box>
       </Box>
+      {profileContext?.profile?.passage_id && (
+        <Box>
+          <Interests
+            passage_id={profileContext?.profile?.passage_id}
+            isEditable={false}
+          />
+        </Box>
+      )}
       {type && <PassageDialog open={open} setOpen={setOpen} type={type} />}
       <ProfileDialog open={openProfile} setOpen={setOpenProfile} />
     </PageWrapper>

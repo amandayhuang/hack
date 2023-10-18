@@ -26,7 +26,7 @@ const pages = [{ title: "About", url: "/about", isVisible: true }];
 const ResponsiveAppBar = () => {
   const navigate = useNavigate();
   const profileContext = useContext(ProfileContext);
-  const { id, email, firstName, lastName } = usePassageCurrentUser();
+  const { id, email, firstName, lastName, phone } = usePassageCurrentUser();
   const { logout } = usePassageLogout();
   const [openPassage, setOpenPassage] = useState(false);
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -46,6 +46,7 @@ const ResponsiveAppBar = () => {
           email: email,
           first_name: firstName,
           last_name: lastName,
+          phone: phone,
         });
       }
     },
@@ -216,6 +217,14 @@ const ResponsiveAppBar = () => {
                   </Box>
                 </MenuItem>
               ) : null}
+              {profileContext?.profile?.passage_id && (
+                <MenuItem
+                  onClick={() => navigate("/profile")}
+                  disabled={window.location.href.includes("/profile")}
+                >
+                  <Typography textAlign="center">{"Profile"}</Typography>
+                </MenuItem>
+              )}
               {profileContext?.profile?.passage_id && (
                 <MenuItem onClick={handleLogout}>
                   <Typography textAlign="center">{"Logout"}</Typography>

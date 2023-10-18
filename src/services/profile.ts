@@ -6,6 +6,16 @@ type ProfileInput = {
   email: string;
   first_name: string | null;
   last_name: string | null;
+  phone: string | null;
+};
+
+type InterestInput = {
+  passage_id: string;
+  interests: number[];
+};
+
+type GetInterestInput = {
+  passage_id: string;
 };
 
 export const getProfile = async (profile: ProfileInput) => {
@@ -14,4 +24,20 @@ export const getProfile = async (profile: ProfileInput) => {
     headers,
   });
   return dbProfile.data;
+};
+
+export const updateInterests = async (input: InterestInput) => {
+  const dbProfile = await axios.post("/.netlify/functions/updateInterests", {
+    data: JSON.stringify(input),
+    headers,
+  });
+  return dbProfile.data;
+};
+
+export const getInterests = async (input: GetInterestInput) => {
+  const interests = await axios.post("/.netlify/functions/getInterests", {
+    data: JSON.stringify(input),
+    headers,
+  });
+  return interests.data;
 };

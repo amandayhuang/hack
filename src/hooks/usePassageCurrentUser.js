@@ -9,6 +9,7 @@ export function usePassageCurrentUser() {
     email: "",
     firstName: "",
     lastName: "",
+    phone: "",
   });
 
   useEffect(() => {
@@ -27,6 +28,7 @@ export function usePassageCurrentUser() {
             email: "",
             firstName: "",
             lastName: "",
+            phone: "",
           });
           return;
         }
@@ -38,6 +40,7 @@ export function usePassageCurrentUser() {
           email: userInfo.email,
           firstName: userInfo.user_metadata.first_name,
           lastName: userInfo.user_metadata.last_name,
+          phone: userInfo.user_metadata.phone_number,
         });
       });
       return () => {

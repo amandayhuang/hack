@@ -3,41 +3,37 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-interface ProfileEntry {
+interface InterestEntry {
   passage_id: string;
-  email: string;
-  first_name: string | null;
-  last_name: string | null;
-  phone: string | null;
+  interests: number[];
 }
 
 const handler: Handler = async (event, context) => {
   if (event.body) {
     const body = JSON.parse(event.body);
-    const newProfile = JSON.parse(body.data) as ProfileEntry;
+    const input = JSON.parse(body.data) as InterestEntry;
+    console.log("INPUT", input);
 
-    const profile = await prisma.profile.upsert({
-      where: { passage_id: newProfile.passage_id },
-      create: {
-        passage_id: newProfile.passage_id,
-        first_name: newProfile.first_name,
-        last_name: newProfile.last_name,
-        phone: newProfile.phone,
-        email: newProfile.email,
+    // remove old entries
+    await prisma.profile_Interest.deleteMany({
+      where: {
+        passage_id: input.passage_id,
       },
-      update: {
-        first_name: newProfile.first_name,
-        last_name: newProfile.last_name,
-        phone: newProfile.phone,
-        email: newProfile.email,
-      },
+    });
+
+    // insert new entries
+    await prisma.profile_Interest.createMany({
+      data: input.interests.map((i) => {
+        return { passage_id: input.passage_id, interest_id: i };
+      }),
+      skipDuplicates: true, // Skip 'Bobo'
     });
 
     return {
       statusCode: 200,
       body: JSON.stringify(
         {
-          ...profile,
+          passage_id: input.passage_id,
         },
         (_key, value) =>
           // need to add a custom serializer because CockroachDB IDs map to
