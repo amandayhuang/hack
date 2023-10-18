@@ -4,10 +4,14 @@ import { Box, Typography, Button } from "@mui/material";
 import PassageDialog from "../PassageDialog";
 import { ProfileContext } from "../../context/ProfileContext";
 import ProfileDialog from "../ProfileDialog";
+import AlertDialog from "../AlertDialog";
+import MatchDialog from "../MatchDialog";
 
 const Home = () => {
   const [open, setOpen] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
+  const [openMatch, setOpenMatch] = useState(false);
   const [type, setType] = useState<string | null>(null);
   const profileContext = useContext(ProfileContext);
 
@@ -43,11 +47,21 @@ const Home = () => {
                   Login
                 </Button>
               )}
-              {profileContext?.profile && (
-                <Button variant="outlined" onClick={() => setOpenProfile(true)}>
-                  Build Profile
-                </Button>
-              )}
+              {profileContext?.profile &&
+                !profileContext.profile.description && (
+                  <Button
+                    variant="outlined"
+                    onClick={() => setOpenProfile(true)}
+                  >
+                    Build Profile
+                  </Button>
+                )}
+              {profileContext?.profile &&
+                profileContext.profile.description && (
+                  <Button variant="outlined" onClick={() => setOpenAlert(true)}>
+                    Get Matched
+                  </Button>
+                )}
             </Box>
           </Box>
         </Box>
@@ -55,6 +69,18 @@ const Home = () => {
 
       {type && <PassageDialog open={open} setOpen={setOpen} type={type} />}
       <ProfileDialog open={openProfile} setOpen={setOpenProfile} />
+      <AlertDialog
+        open={openAlert}
+        setOpen={setOpenAlert}
+        buttonText={"Confirm"}
+        content={
+          "Are you ready to be matched? You'll be paired immediately and will be expected to make one call per week."
+        }
+        buttonClickHandler={() => setOpenMatch(true)}
+        title="Get Matched"
+        isLoading={false}
+      />
+      <MatchDialog open={openMatch} setOpen={setOpenMatch} />
     </PageWrapper>
   );
 };

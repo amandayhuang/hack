@@ -6,13 +6,13 @@ const prisma = new PrismaClient();
 interface InterestEntry {
   passage_id: string;
   interests: number[];
+  description: string;
 }
 
 const handler: Handler = async (event, context) => {
   if (event.body) {
     const body = JSON.parse(event.body);
     const input = JSON.parse(body.data) as InterestEntry;
-    console.log("INPUT", input);
 
     // remove old entries
     await prisma.profile_Interest.deleteMany({
@@ -27,6 +27,14 @@ const handler: Handler = async (event, context) => {
         return { passage_id: input.passage_id, interest_id: i };
       }),
       skipDuplicates: true, // Skip 'Bobo'
+    });
+
+    // update desc
+    await prisma.profile.update({
+      where: { passage_id: input.passage_id },
+      data: {
+        description: input.description,
+      },
     });
 
     return {

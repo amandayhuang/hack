@@ -55,6 +55,7 @@ const Interests = ({ isEditable, passage_id, setOpen }: Props) => {
       return await updateInterests({
         passage_id,
         interests: selectedInterests,
+        description: "testing 123",
       });
     },
     {

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { Dialog, DialogTitle, Box, IconButton } from "@mui/material";
 import { ProfileContext } from "../context/ProfileContext";

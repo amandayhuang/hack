@@ -25,6 +25,8 @@ model Profile {
   dt_created   DateTime   @default(now())
   dt_updated   DateTime   @default(now()) 
   Profile_Interest Profile_Interest[]
+  Volunteer_Match Match? @relation("Volunteer_Profile")
+  Participant_Match Match? @relation("Participant_Profile")
 }
 
 model Profile_Interest {
@@ -33,4 +35,15 @@ model Profile_Interest {
   interest_id   Int
   dt_created   DateTime   @default(now())
   Profile Profile @relation(fields: [passage_id], references: [passage_id])
+}
+
+model Match {
+  id     BigInt     @id @default(autoincrement())
+  volunteer_passage_id    String
+  participant_passage_id    String
+  status       String   @default("ACTIVE")
+  dt_created   DateTime   @default(now())
+  dt_updated   DateTime   @default(now()) 
+  Volunteer_Profile Profile @relation("Volunteer_Profile", fields: [volunteer_passage_id], references: [passage_id])
+  Participant_Profile Profile @relation("Participant_Profile", fields: [participant_passage_id], references: [passage_id])
 }
