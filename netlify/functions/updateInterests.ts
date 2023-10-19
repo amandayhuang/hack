@@ -6,7 +6,8 @@ const prisma = new PrismaClient();
 interface InterestEntry {
   passage_id: string;
   interests: number[];
-  description: string;
+  description: string | null;
+  image: string | null | undefined;
 }
 
 const handler: Handler = async (event, context) => {
@@ -29,11 +30,12 @@ const handler: Handler = async (event, context) => {
       skipDuplicates: true, // Skip 'Bobo'
     });
 
-    // update desc
+    // update desc and image
     await prisma.profile.update({
       where: { passage_id: input.passage_id },
       data: {
         description: input.description,
+        image: input.image,
       },
     });
 

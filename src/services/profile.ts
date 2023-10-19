@@ -12,7 +12,8 @@ type ProfileInput = {
 type InterestInput = {
   passage_id: string;
   interests: number[];
-  description: string;
+  description: string | null;
+  image: string | null | undefined;
 };
 
 type GetInterestInput = {

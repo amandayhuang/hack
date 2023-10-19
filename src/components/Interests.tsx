@@ -8,6 +8,7 @@ import {
   Box,
   Chip,
   CircularProgress,
+  Avatar,
 } from "@mui/material";
 import { useQueryClient, useMutation, useQuery } from "react-query";
 import AlertDialog from "./AlertDialog";
@@ -15,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { interests } from "../constants";
 import { updateInterests, getInterests } from "../services/profile";
 import { ProfileInterest } from "../types";
+import { uploadImage } from "../services/contentful";
 
 type Props = {
   passage_id: string;
@@ -25,6 +27,9 @@ type Props = {
 const Interests = ({ isEditable, passage_id, setOpen }: Props) => {
   const [openAlert, setOpenAlert] = useState(false);
   const [selectedInterests, setSelectedInterests] = useState<number[]>([]);
+  const [imageUrl, setImageUrl] = useState<string | null | undefined>(null);
+  const [desc, setDesc] = useState("");
+  const [uploadLoading, setUploadLoading] = useState(false);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -42,6 +47,8 @@ const Interests = ({ isEditable, passage_id, setOpen }: Props) => {
           setSelectedInterests(
             data.Profile_Interest.map((i: ProfileInterest) => i.interest_id)
           );
+          setImageUrl(data.image);
+          setDesc(data.description);
         },
       }
     );
@@ -51,7 +58,8 @@ const Interests = ({ isEditable, passage_id, setOpen }: Props) => {
       return await updateInterests({
         passage_id,
         interests: selectedInterests,
-        description: "testing 123",
+        description: desc,
+        image: imageUrl,
       });
     },
     {
@@ -88,10 +96,50 @@ const Interests = ({ isEditable, passage_id, setOpen }: Props) => {
     return <CircularProgress />;
   }
 
+  const handleFileChange = async (event: any) => {
+    setUploadLoading(true);
+    const asset = await uploadImage(event.target.files[0], passage_id);
+    setImageUrl(asset.fields.file["en-US"].url.slice(2));
+    setUploadLoading(false);
+  };
+
+  const handleDescChange = (e: any) => {
+    setDesc(e.target.value);
+  };
+
   return (
     <Box style={{ backgroundColor: "white" }} borderRadius={3}>
       <DialogContent>
+        <Box display="flex" alignItems="center" mb={2}>
+          <Box mr={2}>
+            <Avatar
+              src={imageUrl ? `https:${imageUrl}` : undefined}
+              sx={{ width: 80, height: 80 }}
+            />
+          </Box>
+          <Box>
+            {isEditable && (
+              <Button
+                variant="contained"
+                component="label"
+                size="small"
+                disabled={uploadLoading}
+              >
+                {uploadLoading && (
+                  <CircularProgress
+                    color="inherit"
+                    className="spinner"
+                    size="1rem"
+                  />
+                )}
+                Upload Profile Photo
+                <input type="file" hidden onChange={handleFileChange} />
+              </Button>
+            )}
+          </Box>
+        </Box>
         <TextField
+          onChange={handleDescChange}
           disabled={!isEditable}
           fullWidth
           required

@@ -185,7 +185,11 @@ const ResponsiveAppBar = () => {
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
               <Avatar
                 alt={profileContext?.profile?.email || ""}
-                src="/static/images/avatar/2.jpg"
+                src={
+                  profileContext?.profile?.image
+                    ? `https://${profileContext?.profile?.image}`
+                    : ""
+                }
               >
                 {profileContext?.profile?.email
                   ? profileContext?.profile?.email.slice(0, 1)

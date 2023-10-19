@@ -5,6 +5,7 @@ export interface Profile {
   last_name: string | null;
   phone: string | null;
   description: string | null;
+  image: string | null;
 }
 
 export interface ProfileInterest {
