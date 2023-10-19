@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import PageWrapper from "../pages/PageWrapper";
-import { Box, Typography, Button, Avatar } from "@mui/material";
+import { Box, Typography, Button, Avatar, IconButton } from "@mui/material";
 import PassageDialog from "../PassageDialog";
 import { ProfileContext } from "../../context/ProfileContext";
 import ProfileDialog from "../ProfileDialog";
@@ -87,6 +87,17 @@ const Home = () => {
       >
         {"ME"}
       </Avatar>
+
+      <IconButton onClick={() => null} sx={{ p: 0 }}>
+        <Avatar
+          alt={profileContext?.profile?.email || ""}
+          src={`https:/images.ctfassets.net/po2c06fb2ov2/5375hP3jfHw8or2kcKN4IL/6d8a09f403f9c67878560a07ed36f171/VuROcseNn3DxYxSSrlsNcTLO`}
+        >
+          {profileContext?.profile?.email
+            ? profileContext?.profile?.email.slice(0, 1)
+            : undefined}
+        </Avatar>
+      </IconButton>
     </PageWrapper>
   );
 };
