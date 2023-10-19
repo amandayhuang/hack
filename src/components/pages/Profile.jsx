@@ -1,11 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import PageWrapper from "./PageWrapper";
 import { Box, Typography, Button } from "@mui/material";
 import "@passageidentity/passage-elements/passage-profile";
 import ProfileDialog from "../ProfileDialog";
+import { ProfileContext } from "../../context/ProfileContext";
 
 const Profile = () => {
   const [open, setOpen] = useState(false);
+  const profileContext = useContext(ProfileContext);
+
+  if (!profileContext?.profile) {
+    return (
+      <PageWrapper>
+        <Box display="flex" justifyContent="center">
+          <Box className="sizing">
+            <Box mb={2}>
+              <Typography
+                variant="h5"
+                className="section-header"
+              >{`my profile`}</Typography>
+              <Box mt={3}>
+                <Button variant="contained" onClick={() => setOpen(true)}>
+                  Log In
+                </Button>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      </PageWrapper>
+    );
+  }
 
   return (
     <PageWrapper>
