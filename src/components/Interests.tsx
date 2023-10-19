@@ -114,8 +114,12 @@ const Interests = ({ isEditable, passage_id, setOpen }: Props) => {
       <DialogContent>
         <Box display="flex" alignItems="center" mb={2}>
           <Box mr={2}>
-            <Avatar
+            {/* <Avatar
               src={imageUrl ? `https:${imageUrl}` : ""}
+              sx={{ width: 80, height: 80 }}
+            /> */}
+            <Avatar
+              src={`https:/images.ctfassets.net/po2c06fb2ov2/5375hP3jfHw8or2kcKN4IL/6d8a09f403f9c67878560a07ed36f171/VuROcseNn3DxYxSSrlsNcTLO`}
               sx={{ width: 80, height: 80 }}
             />
           </Box>
