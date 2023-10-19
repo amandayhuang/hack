@@ -119,6 +119,7 @@ const Interests = ({ isEditable, passage_id, setOpen }: Props) => {
               sx={{ width: 80, height: 80 }}
             /> */}
             <Avatar
+              alt={imageUrl || ""}
               src={`https:/images.ctfassets.net/po2c06fb2ov2/5375hP3jfHw8or2kcKN4IL/6d8a09f403f9c67878560a07ed36f171/VuROcseNn3DxYxSSrlsNcTLO`}
               sx={{ width: 80, height: 80 }}
             />
