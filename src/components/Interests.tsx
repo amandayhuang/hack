@@ -113,7 +113,7 @@ const Interests = ({ isEditable, passage_id, setOpen }: Props) => {
         <Box display="flex" alignItems="center" mb={2}>
           <Box mr={2}>
             <Avatar
-              src={imageUrl ? `https:${imageUrl}` : undefined}
+              src={imageUrl ? `https:${imageUrl}` : ""}
               sx={{ width: 80, height: 80 }}
             />
           </Box>
@@ -139,6 +139,7 @@ const Interests = ({ isEditable, passage_id, setOpen }: Props) => {
           </Box>
         </Box>
         <TextField
+          value={desc}
           onChange={handleDescChange}
           disabled={!isEditable}
           fullWidth
