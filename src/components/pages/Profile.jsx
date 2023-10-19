@@ -4,6 +4,7 @@ import { Box, Typography, Button } from "@mui/material";
 import "@passageidentity/passage-elements/passage-profile";
 import ProfileDialog from "../ProfileDialog";
 import { ProfileContext } from "../../context/ProfileContext";
+import PassageDialog from "../PassageDialog";
 
 const Profile = () => {
   const [open, setOpen] = useState(false);
@@ -27,6 +28,7 @@ const Profile = () => {
             </Box>
           </Box>
         </Box>
+        <PassageDialog open={open} setOpen={setOpen} type={"login"} />
       </PageWrapper>
     );
   }
