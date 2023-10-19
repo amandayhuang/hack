@@ -33,6 +33,8 @@ const Interests = ({ isEditable, passage_id, setOpen }: Props) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
+  console.log("IMG", imageUrl);
+
   const { isLoading: isLoadingInterests, refetch: getInterestsQuery } =
     useQuery(
       "get-interests",
