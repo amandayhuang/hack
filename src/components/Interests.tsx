@@ -117,7 +117,7 @@ const Interests = ({
   const handleFileChange = async (event: any) => {
     setUploadLoading(true);
     const asset = await uploadImage(event.target.files[0], passage_id);
-    setImageUrl(asset.fields.file["en-US"].url.slice(2));
+    setImageUrl(`https:${asset.fields.file["en-US"].url}`);
     setUploadLoading(false);
   };
 
@@ -165,10 +165,7 @@ const Interests = ({
         )}
         <Box display="flex" alignItems="center" mb={2}>
           <Box mr={2}>
-            <Avatar
-              src={imageUrl ? `https://${imageUrl}` : ""}
-              sx={{ width: 80, height: 80 }}
-            />
+            <Avatar src={imageUrl || ""} sx={{ width: 80, height: 80 }} />
           </Box>
           <Box>
             {isEditable && (
