@@ -44,7 +44,7 @@ const Profile = () => {
             >{`my profile`}</Typography>
             <Box mt={3}>
               <Button variant="contained" onClick={() => setOpen(true)}>
-                Update Interests
+                Update Interests & Photo
               </Button>
             </Box>
             <Box mt={3}>

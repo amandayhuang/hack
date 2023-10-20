@@ -6,9 +6,16 @@ export interface Profile {
   phone: string | null;
   description: string | null;
   image: string | null;
+  match_id: number | null;
 }
 
 export interface ProfileInterest {
   passage_id: string;
   interest_id: number;
+}
+
+export interface MatchNote {
+  match_id: number;
+  note: string;
+  dt_created: Date;
 }

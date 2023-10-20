@@ -11,10 +11,12 @@ const About = () => {
             <Typography
               variant="h5"
               className="section-header"
-            >{`testing`}</Typography>
+            >{`about`}</Typography>
             <Box mt={1}>
               <Typography>{`
-                testing
+                Phone a Friend connects volunteers with individuals at risk of
+                  social isolation. Make one phone call a week and make a new
+                  friend.
               `}</Typography>
             </Box>
           </Box>
@@ -22,12 +24,16 @@ const About = () => {
             <Typography
               variant="h5"
               className="section-header"
-            >{`section 1`}</Typography>
+            >{`faq`}</Typography>
             <Box mt={1}>
-              <ul>
-                <li>First</li>
-                <li>Second</li>
-              </ul>
+              What does it cost?
+              <li>Nothing! It's completely free and powered by volunteers.</li>
+              <br />
+              What's the commitment for volunteers?
+              <li>
+                30 minutes per week. We ask that you commit for at least 6
+                months.
+              </li>
             </Box>
           </Box>
 

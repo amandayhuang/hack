@@ -23,6 +23,7 @@ model Profile {
   description  String?
   image        String?
   role         String     @default("VOLUNTEER")
+  environ      String      @default("dev")
   dt_created   DateTime   @default(now())
   dt_updated   DateTime   @default(now()) 
   Profile_Interest Profile_Interest[]
@@ -47,4 +48,14 @@ model Match {
   dt_updated   DateTime   @default(now()) 
   Volunteer_Profile Profile @relation("Volunteer_Profile", fields: [volunteer_passage_id], references: [passage_id])
   Participant_Profile Profile @relation("Participant_Profile", fields: [participant_passage_id], references: [passage_id])
+  Match_Note Match_Note[]
+}
+
+model Match_Note {
+  id   BigInt     @id @default(autoincrement())
+  match_id     BigInt
+  note         String?
+  dt_created   DateTime   @default(now())
+  dt_updated   DateTime   @default(now()) 
+  Match Match @relation(fields: [match_id], references: [id])
 }

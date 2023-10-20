@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Typography,
   Button,
@@ -17,21 +17,33 @@ import { interests } from "../constants";
 import { updateInterests, getInterests } from "../services/profile";
 import { ProfileInterest } from "../types";
 import { uploadImage } from "../services/contentful";
+import { Profile } from "../types";
+import MatchNoteDialog from "./MatchNoteDialog";
+import { ProfileContext } from "../context/ProfileContext";
 
 type Props = {
   passage_id: string;
   isEditable: boolean;
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowMatch?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const Interests = ({ isEditable, passage_id, setOpen }: Props) => {
+const Interests = ({
+  isEditable,
+  passage_id,
+  setOpen,
+  setShowMatch,
+}: Props) => {
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [openAlert, setOpenAlert] = useState(false);
+  const [openNote, setOpenNote] = useState(false);
   const [selectedInterests, setSelectedInterests] = useState<number[]>([]);
   const [imageUrl, setImageUrl] = useState<string | null | undefined>(null);
   const [desc, setDesc] = useState("");
   const [uploadLoading, setUploadLoading] = useState(false);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const profileContext = useContext(ProfileContext);
 
   const { isLoading: isLoadingInterests, refetch: getInterestsQuery } =
     useQuery(
@@ -49,6 +61,10 @@ const Interests = ({ isEditable, passage_id, setOpen }: Props) => {
           );
           setImageUrl(data.image);
           setDesc(data.description);
+          setProfile(data);
+          if (data.first_name && setShowMatch) {
+            setShowMatch(true);
+          }
         },
       }
     );
@@ -110,14 +126,31 @@ const Interests = ({ isEditable, passage_id, setOpen }: Props) => {
   return (
     <Box style={{ backgroundColor: "white" }} borderRadius={3}>
       <DialogContent>
+        {!isEditable && (
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            mb={3}
+            width="100%"
+            alignItems="center"
+            className="call-box"
+            bgcolor={"#fff689ff"}
+            p={2}
+            borderRadius={2}
+          >
+            <Typography style={{ fontSize: "14px", color: "black" }}>
+              Introduce Yourself
+            </Typography>
+            <Button
+              variant="contained"
+              onClick={() => setOpenNote(true)}
+            >{`Call ${profile?.first_name}`}</Button>
+          </Box>
+        )}
         <Box display="flex" alignItems="center" mb={2}>
           <Box mr={2}>
-            {/* <Avatar
-              src={imageUrl ? `https:${imageUrl}` : ""}
-              sx={{ width: 80, height: 80 }}
-            /> */}
             <Avatar
-              src={`https://${imageUrl}`}
+              src={imageUrl ? `https://${imageUrl}` : ""}
               sx={{ width: 80, height: 80 }}
             />
           </Box>
@@ -140,6 +173,11 @@ const Interests = ({ isEditable, passage_id, setOpen }: Props) => {
                 <input type="file" hidden onChange={handleFileChange} />
               </Button>
             )}
+            {!isEditable && (
+              <Typography
+                style={{ color: "black" }}
+              >{`${profile?.first_name} ${profile?.last_name}`}</Typography>
+            )}
           </Box>
         </Box>
         <TextField
@@ -147,14 +185,14 @@ const Interests = ({ isEditable, passage_id, setOpen }: Props) => {
           onChange={handleDescChange}
           disabled={!isEditable}
           fullWidth
-          required
           variant="outlined"
           margin="dense"
           id="description"
-          label="About Me"
+          label="About"
           type="text"
           minRows={2}
           multiline
+          className="desc"
           helperText={
             isEditable ? (
               <Typography
@@ -164,13 +202,14 @@ const Interests = ({ isEditable, passage_id, setOpen }: Props) => {
           }
         />
         <Box mt={2}>
-          {isEditable && (
-            <Box>
-              <Typography>Select Interests</Typography>
-            </Box>
-          )}
+          <Box>
+            <Typography style={{ color: "black" }}>
+              {isEditable ? `Select Interests` : "Interests"}
+            </Typography>
+          </Box>
+
           {interests.map((interest) => {
-            return (
+            return isEditable || selectedInterests.includes(interest.id) ? (
               <Chip
                 key={interest.id}
                 label={`${interest.icon} ${interest.title}`}
@@ -186,7 +225,7 @@ const Interests = ({ isEditable, passage_id, setOpen }: Props) => {
                 size="small"
                 style={{ marginRight: "10px", marginTop: "10px" }}
               ></Chip>
-            );
+            ) : null;
           })}
         </Box>
       </DialogContent>
@@ -222,6 +261,16 @@ const Interests = ({ isEditable, passage_id, setOpen }: Props) => {
         title="Profile Saved"
         isLoading={false}
       />
+      {profile && !isEditable && profileContext?.profile?.match_id && (
+        <>
+          <MatchNoteDialog
+            open={openNote}
+            match={profile}
+            setOpen={setOpenNote}
+            matchId={profileContext?.profile?.match_id}
+          />
+        </>
+      )}
     </Box>
   );
 };

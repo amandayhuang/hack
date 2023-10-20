@@ -5,6 +5,7 @@
   --aquamarine: #7ae7c7ff;
   --tea-green: #d6ffb7ff;
   --maize: #fff689ff;
+  --testing: #fff689ff;
 }
 
 .App {
@@ -73,7 +74,7 @@
 }
 
 .yellow {
-  color: var(--maize) !important;
+  color: var(--testing) !important;
 }
 
 .gray {
@@ -82,7 +83,7 @@
 
 .section-header {
   text-decoration: underline;
-  text-decoration-color: var(--maize);
+  text-decoration-color: var(--testing);
   text-underline-offset: 7px;
   width: 350px;
   @media screen and (min-width: 900px) {
@@ -284,4 +285,13 @@
   @media screen and (min-width: 500px) {
     max-width: 500px;
   }
+}
+
+.call-box {
+  border-radius: 2;
+  color: var(--cool-gray) !important;
+}
+
+.desc {
+  -webkit-text-fill-color: black !important;
 }

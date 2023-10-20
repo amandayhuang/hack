@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import PageWrapper from "../pages/PageWrapper";
 import { Box, Typography, Button } from "@mui/material";
 import PassageDialog from "../PassageDialog";
@@ -6,6 +6,10 @@ import { ProfileContext } from "../../context/ProfileContext";
 import ProfileDialog from "../ProfileDialog";
 import AlertDialog from "../AlertDialog";
 import MatchDialog from "../MatchDialog";
+import { getMatch, getMatchNotes } from "../../services/match";
+import { useQuery } from "react-query";
+import { Profile, MatchNote } from "../../types";
+import Interests from "../Interests";
 
 const Home = () => {
   const [open, setOpen] = useState(false);
@@ -14,10 +18,64 @@ const Home = () => {
   const [openMatch, setOpenMatch] = useState(false);
   const [type, setType] = useState<string | null>(null);
   const profileContext = useContext(ProfileContext);
+  const [match, setMatch] = useState<Profile | null>(null);
+  const [showMatch, setShowMatch] = useState(false);
+  const [matchNotes, setMatchNotes] = useState<MatchNote[] | null>(null);
+  const { refetch: getMatchQuery } = useQuery(
+    "get-match",
+    async () => {
+      if (profileContext?.profile?.passage_id) {
+        return await getMatch({
+          passage_id: profileContext?.profile?.passage_id,
+        });
+      }
+    },
+    {
+      enabled: false,
+      onSuccess: (data) => {
+        setMatch(data);
+        setShowMatch(true);
+      },
+    }
+  );
+
+  const { refetch: getMatchNotesQuery } = useQuery(
+    "get-match-notes",
+    async () => {
+      if (profileContext?.profile?.match_id) {
+        return await getMatchNotes({
+          match_id: profileContext?.profile?.match_id,
+        });
+      }
+    },
+    {
+      enabled: false,
+      onSuccess: (data) => {
+        setMatchNotes(data.notes);
+      },
+    }
+  );
+
+  useEffect(() => {
+    if (profileContext?.profile?.passage_id) {
+      getMatchQuery();
+    }
+  }, [getMatchQuery, profileContext?.profile?.passage_id]);
+
+  useEffect(() => {
+    if (profileContext?.profile?.match_id) {
+      getMatchNotesQuery();
+    }
+  }, [getMatchNotesQuery, profileContext?.profile?.match_id]);
 
   const handleOpenPassage = (passageType: "login" | "register") => {
     setType(passageType);
     setOpen(true);
+  };
+
+  const handleGetMatch = () => {
+    setOpenAlert(false);
+    setOpenMatch(true);
   };
 
   return (
@@ -25,14 +83,44 @@ const Home = () => {
       <Box display="flex" justifyContent="center">
         <Box className="sizing">
           <Box mb={2}>
-            <Typography
-              variant="h5"
-              className="section-header"
-            >{`phone a friend`}</Typography>
+            <Typography variant="h5" className="section-header">
+              {match ? `my match` : "get started"}
+            </Typography>
+            {!match && (
+              <Box mt={2}>
+                <Typography>
+                  Phone a Friend connects volunteers with individuals at risk of
+                  social isolation. Make one phone call a week and make a new
+                  friend.
+                </Typography>
+              </Box>
+            )}
+            {match && showMatch && (
+              <Box mt={3}>
+                {matchNotes && (
+                  <Box mb={2} display="flex" alignItems="center">
+                    <Typography>{`You've completed ${matchNotes.length} ${
+                      matchNotes.length === 1 ? "call" : "calls"
+                    }.`}</Typography>{" "}
+                    <Box ml={2}>
+                      <Button size="small" variant="outlined">
+                        View
+                      </Button>
+                    </Box>
+                  </Box>
+                )}
+                <Interests
+                  isEditable={false}
+                  passage_id={match.passage_id}
+                  setShowMatch={setShowMatch}
+                />
+              </Box>
+            )}
+
             <Box mt={3}>
               {!profileContext?.profile && (
                 <Button
-                  variant="outlined"
+                  variant="contained"
                   onClick={() => handleOpenPassage("register")}
                   style={{ marginRight: "20px" }}
                 >
@@ -41,7 +129,7 @@ const Home = () => {
               )}
               {!profileContext?.profile && (
                 <Button
-                  variant="outlined"
+                  variant="contained"
                   onClick={() => handleOpenPassage("login")}
                 >
                   Login
@@ -50,15 +138,19 @@ const Home = () => {
               {profileContext?.profile &&
                 !profileContext.profile.description && (
                   <Button
-                    variant="outlined"
+                    variant="contained"
                     onClick={() => setOpenProfile(true)}
                   >
                     Build Profile
                   </Button>
                 )}
               {profileContext?.profile &&
-                profileContext.profile.description && (
-                  <Button variant="outlined" onClick={() => setOpenAlert(true)}>
+                profileContext.profile.description &&
+                !match && (
+                  <Button
+                    variant="contained"
+                    onClick={() => setOpenAlert(true)}
+                  >
                     Get Matched
                   </Button>
                 )}
@@ -76,11 +168,18 @@ const Home = () => {
         content={
           "Are you ready to be matched? You'll be paired immediately and will be expected to make one call per week."
         }
-        buttonClickHandler={() => setOpenMatch(true)}
+        buttonClickHandler={handleGetMatch}
         title="Get Matched"
         isLoading={false}
       />
-      <MatchDialog open={openMatch} setOpen={setOpenMatch} />
+      {profileContext?.profile?.passage_id && (
+        <MatchDialog
+          open={openMatch}
+          setOpen={setOpenMatch}
+          passage_id={profileContext?.profile?.passage_id}
+          setShowMatch={setShowMatch}
+        />
+      )}
     </PageWrapper>
   );
 };

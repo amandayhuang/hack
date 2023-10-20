@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Typography,
   Button,
@@ -7,65 +7,76 @@ import {
   DialogContent,
   DialogTitle,
   Box,
-  IconButton,
+  CircularProgress,
 } from "@mui/material";
-// import { useMutation, useQueryClient } from "react-query";
-import CloseIcon from "@mui/icons-material/Close";
+import { useMutation, useQueryClient } from "react-query";
+import { createMatch } from "../services/match";
 
 type Props = {
+  passage_id: string;
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowMatch: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const MatchDialog = ({ open, setOpen }: Props) => {
-  //   const { isLoading, mutate: createPredictionMutation } = useMutation(
-  //     async () => {
-  //       if (!user?.sub || !winningTeamId || pointsBet === null) return;
-  //       const fixtureId = parseInt(fixture.source_fixture_id.toString());
-  //       return await createOrUpdatePrediction({
-  //         auth0_id: user.sub,
-  //         source_fixture_id: fixtureId,
-  //         winner_source_team_id: winningTeamId,
-  //         points_bet: pointsBet,
-  //         id: prediction?.id || undefined,
-  //       });
-  //     },
-  //     {
-  //       onSuccess: () => {
-  //         setOpen(false);
-  //         setOpenAlert(true);
-  //         queryClient.fetchQuery("get-user");
-  //         queryClient.fetchQuery("get-predictions");
-  //       },
-  //     }
-  //   );
+const MatchDialog = ({ open, setOpen, passage_id, setShowMatch }: Props) => {
+  const queryClient = useQueryClient();
+  const [match, setMatch] = useState<any>(null);
+  const { isLoading, mutate: createMatchMutation } = useMutation(
+    async () => {
+      return await createMatch({ passage_id });
+    },
+    {
+      onSuccess: (data) => {
+        setMatch(data);
+        if (data?.first_name) {
+          setShowMatch(true);
+        }
+        queryClient.fetchQuery("get-profile");
+        queryClient.fetchQuery("get-match");
+      },
+    }
+  );
+
+  useEffect(() => {
+    if (open) {
+      createMatchMutation();
+    }
+  }, [createMatchMutation, open]);
 
   return (
     <div>
-      <Dialog open={open} onClose={() => setOpen(false)}>
+      <Dialog open={open}>
         <DialogTitle>
           <Box
             display="flex"
             justifyContent="space-between"
             alignItems="center"
           >
-            <Box> Match </Box>
-            <IconButton aria-label="close" onClick={() => setOpen(false)}>
-              <CloseIcon />
-            </IconButton>
+            <Box>Match</Box>
           </Box>
         </DialogTitle>
         <DialogContent>
-          <Typography variant="h3">Finding the Perfect Match</Typography>
+          {isLoading && (
+            <Typography>
+              <CircularProgress />
+              Finding the Perfect Match
+            </Typography>
+          )}
+          {!isLoading && match && (
+            <Typography>{`👻 You've been matched with ${match?.first_name} ${match?.last_name}!`}</Typography>
+          )}
         </DialogContent>
         <DialogActions>
-          <Box>
-            <Box display="flex" width="100%" justifyContent="center">
-              <Button onClick={() => setOpen(false)} variant="contained">
-                Close
-              </Button>
+          {match && (
+            <Box>
+              <Box display="flex" width="100%" alignItems="center">
+                <Button onClick={() => setOpen(false)} variant="contained">
+                  Learn More
+                </Button>
+              </Box>
             </Box>
-          </Box>
+          )}
         </DialogActions>
       </Dialog>
     </div>

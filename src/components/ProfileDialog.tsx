@@ -25,7 +25,7 @@ const ProfileDialog = ({ open, setOpen }: Props) => {
             justifyContent="space-between"
             alignItems="center"
           >
-            <Box> My Interests </Box>
+            <Box> My Profile </Box>
             <IconButton aria-label="close" onClick={handleClose}>
               <CloseIcon />
             </IconButton>
