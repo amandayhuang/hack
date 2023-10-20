@@ -17,6 +17,7 @@ import AlertDialog from "./AlertDialog";
 import { Profile } from "../types";
 import { createMatchNote } from "../services/match";
 import { formatPhoneNumber } from "../services/util";
+import Question from "./Question";
 
 type Props = {
   open: boolean;
@@ -90,6 +91,7 @@ const PredictDialog = ({ open, setOpen, match, matchId }: Props) => {
               </Typography>
             </Box>
           )}
+          <Question />
           <TextField
             variant="outlined"
             margin="dense"

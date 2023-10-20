@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { useMutation, useQueryClient } from "react-query";
 import { createMatch } from "../services/match";
+import { Orbit } from "@uiball/loaders";
 
 type Props = {
   passage_id: string;
@@ -55,17 +56,21 @@ const MatchDialog = ({ open, setOpen, passage_id, setShowMatch }: Props) => {
             display="flex"
             justifyContent="space-between"
             alignItems="center"
-          >
-            <Box>Match</Box>
-          </Box>
+          ></Box>
         </DialogTitle>
         <DialogContent>
           {isLoading && (
-            <Typography>
-              <CircularProgress />
-              Finding the Perfect Match
-            </Typography>
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Orbit size={80} color="#fff689ff" />
+              <Typography>Finding the Right Match</Typography>
+            </Box>
           )}
+
           {!isLoading && match && (
             <Typography>{`👻 You've been matched with ${match?.first_name} ${match?.last_name}!`}</Typography>
           )}
@@ -75,21 +80,17 @@ const MatchDialog = ({ open, setOpen, passage_id, setShowMatch }: Props) => {
         </DialogContent>
         <DialogActions>
           {match && (
-            <Box>
-              <Box display="flex" width="100%" alignItems="center">
-                <Button onClick={() => setOpen(false)} variant="contained">
-                  Learn More
-                </Button>
-              </Box>
+            <Box display="flex" width="100%" justifyContent="center">
+              <Button onClick={() => setOpen(false)} variant="contained">
+                Learn More
+              </Button>
             </Box>
           )}
           {matchError && (
-            <Box>
-              <Box display="flex" width="100%" alignItems="center">
-                <Button onClick={() => setOpen(false)} variant="contained">
-                  Close
-                </Button>
-              </Box>
+            <Box display="flex" width="100%" justifyContent="center">
+              <Button onClick={() => setOpen(false)} variant="contained">
+                Close
+              </Button>
             </Box>
           )}
         </DialogActions>

@@ -96,9 +96,9 @@ const Home = () => {
         <Box className="sizing">
           <Box mb={2}>
             <Typography variant="h5" className="section-header">
-              {match ? `my match` : "get started"}
+              {match && profileContext?.profile ? `my match` : "get started"}
             </Typography>
-            {!match && (
+            {(!match || !profileContext?.profile) && (
               <Box mt={2}>
                 <Typography>
                   Phone a Friend connects volunteers with individuals at risk of
@@ -107,10 +107,16 @@ const Home = () => {
                 </Typography>
               </Box>
             )}
-            {match && showMatch && (
+            {match && showMatch && profileContext?.profile && (
               <Box mt={3}>
+                <Interests
+                  isEditable={false}
+                  passage_id={match.passage_id}
+                  setShowMatch={setShowMatch}
+                  daysSinceLastCall={daysSinceLastCall}
+                />
                 {matchNotes && (
-                  <Box mb={2} display="flex" alignItems="center">
+                  <Box m={2} display="flex" alignItems="center">
                     <Typography>{`You've completed ${matchNotes.length} ${
                       matchNotes.length === 1 ? "call" : "calls"
                     }.`}</Typography>{" "}
@@ -121,12 +127,6 @@ const Home = () => {
                     </Box>
                   </Box>
                 )}
-                <Interests
-                  isEditable={false}
-                  passage_id={match.passage_id}
-                  setShowMatch={setShowMatch}
-                  daysSinceLastCall={daysSinceLastCall}
-                />
               </Box>
             )}
 

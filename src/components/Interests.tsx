@@ -128,7 +128,7 @@ const Interests = ({
   return (
     <Box style={{ backgroundColor: "white" }} borderRadius={3}>
       <DialogContent>
-        {!isEditable && (
+        {!isEditable && profile?.first_name && (
           <Box
             display="flex"
             justifyContent="space-between"
@@ -196,26 +196,29 @@ const Interests = ({
             )}
           </Box>
         </Box>
-        <TextField
-          value={desc}
-          onChange={handleDescChange}
-          disabled={!isEditable}
-          fullWidth
-          variant="outlined"
-          margin="dense"
-          id="description"
-          label="About"
-          type="text"
-          minRows={2}
-          multiline
-          helperText={
-            isEditable ? (
+        {isEditable ? (
+          <TextField
+            value={desc}
+            onChange={handleDescChange}
+            fullWidth
+            variant="outlined"
+            margin="dense"
+            id="description"
+            label="About"
+            type="text"
+            minRows={2}
+            multiline
+            helperText={
               <Typography
                 style={{ fontSize: "12px" }}
               >{`Give a short intro about yourself.`}</Typography>
-            ) : undefined
-          }
-        />
+            }
+          />
+        ) : (
+          <Box width="100%" p={2} borderRadius={1} border="1px solid #a0a4b8ff">
+            <Typography style={{ color: "black" }}> {desc}</Typography>
+          </Box>
+        )}
         <Box mt={2}>
           <Box>
             <Typography style={{ color: "black" }}>
