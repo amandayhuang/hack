@@ -169,7 +169,7 @@ const Interests = ({
                     size="1rem"
                   />
                 )}
-                Upload Profile Photo
+                Upload Photo
                 <input type="file" hidden onChange={handleFileChange} />
               </Button>
             )}

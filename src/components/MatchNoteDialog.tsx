@@ -82,10 +82,12 @@ const PredictDialog = ({ open, setOpen, match, matchId }: Props) => {
         <DialogContent>
           {match.phone && (
             <Box mb={1}>
-              <Typography
-                color="primary"
-                style={{ fontWeight: 600 }}
-              >{`📞 ${formatPhoneNumber(match.phone)}`}</Typography>
+              <Typography color="primary" style={{ fontWeight: 600 }}>
+                📞{" "}
+                <a href={`tel:${match.phone}`}>
+                  {`${formatPhoneNumber(match.phone)}`}
+                </a>
+              </Typography>
             </Box>
           )}
           <TextField
