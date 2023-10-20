@@ -7,7 +7,6 @@ import {
   DialogContent,
   DialogTitle,
   Box,
-  CircularProgress,
 } from "@mui/material";
 import { useMutation, useQueryClient } from "react-query";
 import { createMatch } from "../services/match";
