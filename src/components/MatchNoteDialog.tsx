@@ -40,7 +40,7 @@ const PredictDialog = ({ open, setOpen, match, matchId }: Props) => {
     },
     {
       onSuccess: () => {
-        queryClient.fetchQuery("get-profile");
+        queryClient.fetchQuery("get-match-notes");
         setOpen(false);
         setOpenAlert(true);
       },
@@ -109,23 +109,21 @@ const PredictDialog = ({ open, setOpen, match, matchId }: Props) => {
           />
         </DialogContent>
         <DialogActions>
-          <Box>
-            <Box display="flex" width="100%" justifyContent="center">
-              <Button
-                onClick={handleSubmit}
-                variant="contained"
-                disabled={isLoading}
-              >
-                {isLoading && (
-                  <CircularProgress
-                    color="inherit"
-                    className="spinner"
-                    size="1rem"
-                  />
-                )}
-                {`Submit Call`}
-              </Button>
-            </Box>
+          <Box display="flex" width="100%" justifyContent="center">
+            <Button
+              onClick={handleSubmit}
+              variant="contained"
+              disabled={isLoading}
+            >
+              {isLoading && (
+                <CircularProgress
+                  color="inherit"
+                  className="spinner"
+                  size="1rem"
+                />
+              )}
+              {`Submit Call`}
+            </Button>
           </Box>
         </DialogActions>
       </Dialog>

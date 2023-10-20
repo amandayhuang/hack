@@ -14,6 +14,7 @@ const handler: Handler = async (event, context) => {
 
     const notes = await prisma.match_Note.findMany({
       where: { match_id: BigInt(match.match_id) },
+      orderBy: { dt_created: "desc" },
     });
 
     return {

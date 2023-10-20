@@ -291,7 +291,3 @@
   border-radius: 2;
   color: var(--cool-gray) !important;
 }
-
-.desc {
-  -webkit-text-fill-color: black !important;
-}

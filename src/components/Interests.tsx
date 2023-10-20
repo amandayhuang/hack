@@ -26,6 +26,7 @@ type Props = {
   isEditable: boolean;
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   setShowMatch?: React.Dispatch<React.SetStateAction<boolean>>;
+  daysSinceLastCall?: number | null;
 };
 
 const Interests = ({
@@ -33,6 +34,7 @@ const Interests = ({
   passage_id,
   setOpen,
   setShowMatch,
+  daysSinceLastCall,
 }: Props) => {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [openAlert, setOpenAlert] = useState(false);
@@ -138,9 +140,23 @@ const Interests = ({
             p={2}
             borderRadius={2}
           >
-            <Typography style={{ fontSize: "14px", color: "black" }}>
-              Introduce Yourself
-            </Typography>
+            {daysSinceLastCall !== null ? (
+              <Box display="flex" flexDirection="column">
+                <Typography style={{ fontSize: "14px", color: "black" }}>
+                  Last Call:
+                </Typography>
+                <Typography style={{ fontSize: "14px", color: "black" }}>
+                  {`${daysSinceLastCall} ${
+                    daysSinceLastCall === 1 ? "day" : "days"
+                  } ago`}
+                </Typography>
+              </Box>
+            ) : (
+              <Typography style={{ fontSize: "14px", color: "black" }}>
+                Introduce Yourself
+              </Typography>
+            )}
+
             <Button
               variant="contained"
               onClick={() => setOpenNote(true)}
@@ -192,7 +208,6 @@ const Interests = ({
           type="text"
           minRows={2}
           multiline
-          className="desc"
           helperText={
             isEditable ? (
               <Typography

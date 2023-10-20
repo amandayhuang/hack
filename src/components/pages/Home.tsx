@@ -10,6 +10,7 @@ import { getMatch, getMatchNotes } from "../../services/match";
 import { useQuery } from "react-query";
 import { Profile, MatchNote } from "../../types";
 import Interests from "../Interests";
+import { daysSinceDate } from "../../services/util";
 
 const Home = () => {
   const [open, setOpen] = useState(false);
@@ -21,6 +22,9 @@ const Home = () => {
   const [match, setMatch] = useState<Profile | null>(null);
   const [showMatch, setShowMatch] = useState(false);
   const [matchNotes, setMatchNotes] = useState<MatchNote[] | null>(null);
+  const [daysSinceLastCall, setDaysSinceLastCall] = useState<number | null>(
+    null
+  );
   const { refetch: getMatchQuery } = useQuery(
     "get-match",
     async () => {
@@ -68,6 +72,14 @@ const Home = () => {
     }
   }, [getMatchNotesQuery, profileContext?.profile?.match_id]);
 
+  useEffect(() => {
+    setDaysSinceLastCall(
+      matchNotes && matchNotes.length > 0
+        ? daysSinceDate(matchNotes[0].dt_created)
+        : null
+    );
+  }, [matchNotes]);
+
   const handleOpenPassage = (passageType: "login" | "register") => {
     setType(passageType);
     setOpen(true);
@@ -113,6 +125,7 @@ const Home = () => {
                   isEditable={false}
                   passage_id={match.passage_id}
                   setShowMatch={setShowMatch}
+                  daysSinceLastCall={daysSinceLastCall}
                 />
               </Box>
             )}
