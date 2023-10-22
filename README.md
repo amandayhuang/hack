@@ -38,4 +38,8 @@ Some potential future enhancements include:
 
 - building out the experience for signing up program participants (making sure family members or nonprofits can help sign them up)
 - more intelligent matching between volunteers and participants
-- text or email reminders
+- text/email reminders or calendar integration
+
+### Learnings
+
+- Need to build out different experiences for volunteers and participants. Volunteers would typically be smart phone users and comfortable with technology, while participants may not be comfortable using the internet and may need to be aided by someone during onboarding.
