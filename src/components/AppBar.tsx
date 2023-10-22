@@ -226,6 +226,14 @@ const ResponsiveAppBar = () => {
                 </MenuItem>
               )}
               {profileContext?.profile?.passage_id && (
+                <MenuItem
+                  onClick={() => navigate("/calls")}
+                  disabled={window.location.href.includes("/calls")}
+                >
+                  <Typography textAlign="center">{"Past Calls"}</Typography>
+                </MenuItem>
+              )}
+              {profileContext?.profile?.passage_id && (
                 <MenuItem onClick={handleLogout}>
                   <Typography textAlign="center">{"Logout"}</Typography>
                 </MenuItem>

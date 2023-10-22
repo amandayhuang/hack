@@ -7,7 +7,7 @@ const main = async () => {
     const profile = await prisma.profile.create({
       data: {
         passage_id: faker.string.uuid(),
-        image: faker.internet.avatar(),
+        image: `https://images.ctfassets.net/po2c06fb2ov2/32izR3fvLOfP04ESNv639r/c732e8697d003724a67c75257fd662c8/cJnyrSnwVOGSftGpBKMJlgXJ`,
         first_name: faker.person.firstName(),
         last_name: faker.person.lastName(),
         email: faker.internet.email(),

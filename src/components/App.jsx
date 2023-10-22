@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import "../styles/App.css";
 import "@passageidentity/passage-elements/passage-auth";
+import PastCalls from "./pages/PastCalls";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/calls" element={<PastCalls />} />
         </Routes>
       </div>
     </Router>

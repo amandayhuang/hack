@@ -11,6 +11,7 @@ import { useQuery } from "react-query";
 import { Profile, MatchNote } from "../../types";
 import Interests from "../Interests";
 import { daysSinceDate } from "../../services/util";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [open, setOpen] = useState(false);
@@ -19,6 +20,7 @@ const Home = () => {
   const [openMatch, setOpenMatch] = useState(false);
   const [type, setType] = useState<string | null>(null);
   const profileContext = useContext(ProfileContext);
+  const navigate = useNavigate();
   const [match, setMatch] = useState<Profile | null>(null);
   const [showMatch, setShowMatch] = useState(false);
   const [matchNotes, setMatchNotes] = useState<MatchNote[] | null>(null);
@@ -121,7 +123,11 @@ const Home = () => {
                       matchNotes.length === 1 ? "call" : "calls"
                     }.`}</Typography>{" "}
                     <Box ml={2}>
-                      <Button size="small" variant="outlined">
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        onClick={() => navigate("/calls")}
+                      >
                         View
                       </Button>
                     </Box>

@@ -132,7 +132,7 @@ const PredictDialog = ({ open, setOpen, match, matchId }: Props) => {
       <AlertDialog
         open={openAlert}
         setOpen={setOpenAlert}
-        content={"Well done. You're doing great!"}
+        content={"Thanks for your time!"}
         title="Call Completed"
         isLoading={false}
       />
